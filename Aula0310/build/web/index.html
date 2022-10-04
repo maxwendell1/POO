@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+    <head>
+        <title>App Cálculo de Juros</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-iYQeCzEYFbKjA/T2uDLTpkwGzCiq6soy8tYaI1GyVh/UjpbCx/TYkiZhlZB6+fzT" crossorigin="anonymous">
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+    
+    <body>
+        <h2>Cálculo de juros</h2>  
+        
+        <h3>Cálculo de juros simples</h3>
+        <form action="max-juros-simples.json">
+            <input type="number" step="0.1" name="valorIncial" placeholder="Valor Inicial"/>   
+            <input type="number" step="0.1" name="periodo" placeholder="Período (meses)"/>   
+            <input type="number" step="0.1" name="taxa" placeholder="Taxa (% a.m.)"/>   
+              
+            <input type="submit" value="Calcular"/>         
+        </form>
+        
+        <h3>Cálculo de juros compostos</h3>
+        <form action="max-juros-compóstos.json">
+            <input type="number" step="0.1" name="valorIncial" placeholder="Valor Inicial"/>   
+            <input type="number" step="0.1" name="periodo" placeholder="Período (meses)"/>   
+            <input type="number" step="0.1" name="taxa" placeholder="Taxa (% a.m.)"/>   
+              
+            <input type="submit" value="Calcular"/>         
+        </form>
+        
+        <script>
+            const { createApp } = Vue
+            
+            createApp({
+                data() {
+                    return {
+                        message: 'Hello Vue!',
+                        loading: false,
+                        error: null,
+                        list: null,
+                        newTask: ""
+                    }
+                },
+                mounted(){
+                    this.loadList();
+                },
+                methods: {
+                    loadTasks(params){
+                     var url = "max-juros-simples.json";
+                     if(params) url += '?' + params;
+                     this.loading = true;
+                     fetch(url).then((response) => response.json())
+                     .then((data) => this.jurosS = data)
+                     .catch((e) => this.error = e)
+                     .finally(() => this.loading = false); 
+                  }
+                }
+            }).mount('#app')
+        </script>
+    </body>
+</html>
